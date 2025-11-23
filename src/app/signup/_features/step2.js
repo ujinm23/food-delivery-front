@@ -4,20 +4,23 @@ import { ChevronLeft } from "@/app/_icons/ChevronLeft";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function Step2({
-  increaseStep,
-  reduceStep,
-  formik,
-  errors,
-  touched,
-}) {
+export default function Step2({ increaseStep, reduceStep, formik }) {
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const { values, handleChange, handleBlur } = formik;
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+    handleSubmit,
+    isSubmitting,
+  } = formik;
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -42,12 +45,13 @@ export default function Step2({
               name="password"
               placeholder="Password"
               className={` ${
-                error ? "border-red-300 focus-visible: ring-red-300" : ""
+                errors ? "border-red-300 focus-visible: ring-red-300" : ""
               }`}
               value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
             />
+
             <div className="relative h-5">
               {errors.password && touched.password && (
                 <div className="text-red-500">{errors.password}</div>
@@ -58,7 +62,7 @@ export default function Step2({
               placeholder="Confirm"
               name="confirmPassword"
               className={`${
-                error ? "border-red-300 focus-visible: ring-red-300" : ""
+                errors ? "border-red-300 focus-visible: ring-red-300" : ""
               }`}
               value={values.confirmPassword}
               onChange={handleChange}
@@ -69,11 +73,15 @@ export default function Step2({
               <p className="text-[14px] text-[#71717A]">Show password</p>
             </div>
           </div>
-          <div className="w-104 h-9 bg-[#18181B]  rounded-[6px] flex justify-center items-center">
+          <Button
+            className="w-104 h-9 bg-[#18181B]  rounded-[6px] flex justify-center items-center"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
             <p className="text-[#FAFAFA] text-[14px] font-medium">
               Let&apos;s Go
             </p>
-          </div>
+          </Button>
           <div className="flex gap-3 text-4 justify-center items-center">
             <p className="text-[#71717A]">Already have an account?</p>
             <button className="text-[#2563EB]">Log in </button>

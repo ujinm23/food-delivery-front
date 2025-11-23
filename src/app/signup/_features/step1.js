@@ -51,7 +51,7 @@ export default function Step1({ increaseStep, formik }) {
             <Button
               // className="w-104 h-9 bg-[#18181B] rounded-[6px] flex justify-center items-center"
               onClick={increaseStep}
-              disable={errors.email || !values.email}
+              disabled={errors.email || !values.email}
               className={`w-[416px] h-9 mb-6 cursor-pointer
             ${
               !errors.email || values.email

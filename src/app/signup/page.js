@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
-import Step1 from "@/app/signup/_features/step1";
-import Step2 from "@/app/signup/_features/step2";
+import Step1 from "@/app/signUp/_features/step1";
+import Step2 from "@/app/signUp/_features/step2";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
   const [step, setStep] = useState(1);
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
   function increaseStep() {
     setStep((prev) => prev + 1);
   }
@@ -28,6 +32,20 @@ const Home = () => {
     ),
   });
 
+  const createUser = async (email, password) => {
+    try {
+      setLoading(true);
+      await axios.post(`http://localhost:999/authentication/signup`, {
+        email: email,
+        password: password,
+      });
+      router.push("/login");
+    } catch (err) {
+      setApiError(err.response.data);
+    } finally {
+      setLoading(false);
+    }
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -35,8 +53,9 @@ const Home = () => {
       confirmPassword: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringly(values, null, 2));
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      await createUser(email, password);
     },
   });
   return (
@@ -49,6 +68,7 @@ const Home = () => {
           formik={formik}
         />
       )}
+      {apiError && <div style={{ color: "red" }}>{apiError}</div>}
     </div>
   );
 };
