@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import Step1 from "@/app/components/step1.jsx";
-import Step2 from "@/app/components/step2.jsx";
-import Step3 from "@/app/components/step3.jsx";
+import Step1 from "@/app/signup/_features/step1";
+import Step2 from "@/app/signup/_features/step2";
+import Step3 from "@/app/login/page";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 

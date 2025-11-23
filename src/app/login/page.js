@@ -4,7 +4,7 @@ import { ChevronLeft } from "@/app/_icons/ChevronLeft";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function Step3() {
   const router = useRouter();
   const handleButtonClick = () => {
     router.push("/signup");
