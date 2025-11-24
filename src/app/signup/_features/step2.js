@@ -69,18 +69,12 @@ export default function Step2({ increaseStep, reduceStep, formik }) {
               onBlur={handleBlur}
             />
             <div className="flex items-center gap-2">
-              <Checkbox id="terms-2" defaultChecked />
+              <Checkbox id="terms-2" onCheckedChange={(v) => setShow(v)} />
               <p className="text-[14px] text-[#71717A]">Show password</p>
             </div>
           </div>
-          <Button
-            className="w-104 h-9 bg-[#18181B]  rounded-[6px] flex justify-center items-center"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            <p className="text-[#FAFAFA] text-[14px] font-medium">
-              Let&apos;s Go
-            </p>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "loading" : "Lets Go"}
           </Button>
           <div className="flex gap-3 text-4 justify-center items-center">
             <p className="text-[#71717A]">Already have an account?</p>

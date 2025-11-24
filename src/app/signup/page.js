@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import Step1 from "@/app/signUp/_features/step1";
-import Step2 from "@/app/signUp/_features/step2";
+import Step1 from "@/app/signup/_features/step1.js";
+import Step2 from "@/app/signup/_features/step2.js";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -42,8 +42,6 @@ const Home = () => {
       router.push("/login");
     } catch (err) {
       setApiError(err.response.data);
-    } finally {
-      setLoading(false);
     }
   };
   const formik = useFormik({
@@ -52,23 +50,29 @@ const Home = () => {
       password: "",
       confirmPassword: "",
     },
-    validationSchema: validationSchema,
+    validationSchema: null,
     onSubmit: async (values) => {
+      console.log("hello");
       const { email, password } = values;
-      await createUser(email, password);
+      console.log(email, password);
+      // await createUser(email, password);
     },
   });
+  const { handleSubmit } = formik;
+
   return (
     <div className="w-screen h-screen justify-center items-center flex ">
-      {step === 1 && <Step1 increaseStep={increaseStep} formik={formik} />}
-      {step === 2 && (
-        <Step2
-          increaseStep={increaseStep}
-          reduceStep={reduceStep}
-          formik={formik}
-        />
-      )}
-      {apiError && <div style={{ color: "red" }}>{apiError}</div>}
+      <form onSubmit={handleSubmit}>
+        {step === 1 && <Step1 increaseStep={increaseStep} formik={formik} />}
+        {step === 2 && (
+          <Step2
+            increaseStep={increaseStep}
+            reduceStep={reduceStep}
+            formik={formik}
+          />
+        )}
+        {apiError && <div style={{ color: "red" }}>{apiError}</div>}
+      </form>
     </div>
   );
 };
