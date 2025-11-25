@@ -55,7 +55,7 @@ export function Footer() {
                 </div>
               </div>
               <div className="w-[122px] h-7 flex flex-col gap-4">
-                <h className="text-[#71717A]">FOLLOW US</h>
+                <p className="text-[#71717A]">FOLLOW US</p>
                 <div className="flex gap-4">
                   <FacebookLogo />
                   <InstagramLogo />

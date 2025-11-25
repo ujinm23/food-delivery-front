@@ -11,6 +11,7 @@ const Home = () => {
   const [step, setStep] = useState(1);
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   function increaseStep() {
     setStep((prev) => prev + 1);
   }
@@ -26,9 +27,9 @@ const Home = () => {
       .matches(/[0-9]/, "too aguularai")
       .matches(/[^a-zA-Z0-9]/, "temdegt aguularai")
       .required("Required"),
-    confirmPassword: Yup.string().matches(
+    confirmPassword: Yup.string().oneOf(
       [Yup.ref("password")],
-      "Pssword not match"
+      "Password not match"
     ),
   });
 
@@ -50,29 +51,24 @@ const Home = () => {
       password: "",
       confirmPassword: "",
     },
-    validationSchema: null,
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("hello");
       const { email, password } = values;
-      console.log(email, password);
-      // await createUser(email, password);
+      await createUser(email, password);
     },
   });
-  const { handleSubmit } = formik;
 
   return (
-    <div className="w-screen h-screen justify-center items-center flex ">
-      <form onSubmit={handleSubmit}>
-        {step === 1 && <Step1 increaseStep={increaseStep} formik={formik} />}
-        {step === 2 && (
-          <Step2
-            increaseStep={increaseStep}
-            reduceStep={reduceStep}
-            formik={formik}
-          />
-        )}
-        {apiError && <div style={{ color: "red" }}>{apiError}</div>}
-      </form>
+    <div className="w-screen h-screen justify-center items-center flex flex-col ">
+      {step === 1 && <Step1 increaseStep={increaseStep} formik={formik} />}
+      {step === 2 && (
+        <Step2
+          increaseStep={increaseStep}
+          reduceStep={reduceStep}
+          formik={formik}
+        />
+      )}
+      {apiError && <div style={{ color: "red" }}>{apiError}</div>}
     </div>
   );
 };

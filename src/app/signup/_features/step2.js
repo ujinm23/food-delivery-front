@@ -21,9 +21,17 @@ export default function Step2({ increaseStep, reduceStep, formik }) {
     handleSubmit,
     isSubmitting,
   } = formik;
+  const handleButtonClick = () => {
+    router.push("/login");
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault(), handleSubmit(values);
+      }}
+      className="flex justify-center items-center min-h-screen"
+    >
       <div className="w-[1440px] h-[944px] p-5 flex gap-12 pl-20 justify-between items-center">
         <div className="w-100 h-93 flex flex-col gap-6">
           <div
@@ -78,7 +86,9 @@ export default function Step2({ increaseStep, reduceStep, formik }) {
           </Button>
           <div className="flex gap-3 text-4 justify-center items-center">
             <p className="text-[#71717A]">Already have an account?</p>
-            <button className="text-[#2563EB]">Log in </button>
+            <button className="text-[#2563EB]" onClick={handleButtonClick}>
+              Log in{" "}
+            </button>
           </div>
         </div>
         <div className="w-[856px] h-[904px] relative">
@@ -90,6 +100,6 @@ export default function Step2({ increaseStep, reduceStep, formik }) {
           />
         </div>
       </div>
-    </div>
+    </form>
   );
 }
