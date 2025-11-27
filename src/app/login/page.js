@@ -4,52 +4,50 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string()
-      .min(8, "8 aas deesh")
-      .matches(/[a-zA-Z]/, "Useg aguularai")
-      .matches(/[0-9]/, "too aguularai")
-      .matches(/[^a-zA-Z0-9]/, "temdegt aguularai")
-      .required("Required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password")],
-      "Incorrect password. Please try again."
-    ),
+
+  const loginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Please enter a valid email.")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
-  const loginUser = async (email, password) => {
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      setLoading(true);
-      await axios.post(`http://localhost:999/authentication/login`, {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://localhost:999/authentication/login",
+        values
+      );
       router.push("/home");
+      console.log("LOGIN FORM DATA:", values);
     } catch (err) {
-      setApiError(err.response.data);
+      console.log(err);
+      if (err.response && err.response.data) {
+        setErrors({ api: err.response.data });
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      const { email, password } = values;
-      await loginUser(email, password);
-    },
+    validationSchema: loginSchema,
+    onSubmit: handleSubmit,
   });
+
   return (
     <div>
-      <Step3 />
+      <Step3 formik={formik} />
     </div>
   );
 }

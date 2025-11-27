@@ -7,7 +7,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function Step1({ increaseStep, formik }) {
+  const router = useRouter();
   const { values, handleChange, handleBlur, errors, touched } = formik;
+  const handleButtonClick = () => {
+    router.push("/login");
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -67,7 +71,9 @@ export default function Step1({ increaseStep, formik }) {
           </div>
           <div className="flex gap-3 text-4 justify-center items-center">
             <p className="text-[#71717A]">Already have an account?</p>
-            <span className="text-[#2563EB]">Log in</span>
+            <span className="text-[#2563EB]" onClick={handleButtonClick}>
+              Log in
+            </span>
           </div>
         </div>
         <div className="w-[856px] h-[904px] relative">
