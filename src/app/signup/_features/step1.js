@@ -82,6 +82,7 @@ export default function Step1({ increaseStep, formik }) {
             fill
             alt="the picture"
             className="object-cover rounded-2xl"
+            loading="eager"
           />
         </div>
       </div>

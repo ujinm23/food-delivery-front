@@ -24,7 +24,7 @@ export default function Login() {
         "http://localhost:999/authentication/login",
         values
       );
-      router.push("/home");
+      router.push("/");
       console.log("LOGIN FORM DATA:", values);
     } catch (err) {
       console.log(err);

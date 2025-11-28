@@ -1,4 +1,4 @@
-import { Logo } from "@/app/_icons/Logo.js";
+import { LogoVertical } from "@/app/_components/LogoVertical.js";
 import { LocationIcon } from "../_icons/LocationIcon";
 import { ChevronRight } from "../_icons/ChevronRight";
 import { ShoppingCartIcon } from "../_icons/ShoppingCartIcon";
@@ -15,20 +15,7 @@ import { Button } from "@/components/ui/button";
 export function Header() {
   return (
     <div className="w-auto h-17 bg-[#18181B] flex justify-between px-22 items-center">
-      <div className="w-[146px] h-11 flex">
-        <div className="w-22 flex justify-center">
-          <Logo className="w-[46px] h-[37.29px]" />
-        </div>
-        <div className="flex flex-col ">
-          <div className="flex font-semibold text-5 justify-center">
-            <h4 className="text-white">Nom</h4>
-            <h4 className="text-[#EF4444]">Nom</h4>
-          </div>
-          <div className="font-normal text-[12px] text-white w-22 flex justify-center">
-            Swift delivery
-          </div>
-        </div>
-      </div>
+      <LogoVertical />
       <div className="w-[348.6px] h-9 flex gap-3">
         <div className="w-[251px] bg-[#FFFFFF] h-9 rounded-full px-3 flex items-center justify-between">
           <LocationIcon />

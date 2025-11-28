@@ -5,11 +5,15 @@ export function Footer() {
   return (
     <div className="w-auto h-[755px] bg-[#18181B] flex flex-col pt-15 pb-[111px]">
       <div className="w-auto h-[92px] bg-[#EF4444] flex text-white pl-[98px] font-semibold text-[30px] gap-[34px] overflow-hidden items-center">
-        <h2>Fresh fast delivered </h2>
-        <h2>Fresh fast delivered </h2>
-        <h2>Fresh fast delivered </h2>
-        <h2>Fresh fast delivered </h2>
-        <h2>Fresh fas </h2>
+        <div className="flex gap-[34px] whitespace-nowrap ">
+          <h2>Fresh fast delivered </h2>
+          <h2>Fresh fast delivered </h2>
+          <h2>Fresh fast delivered </h2>
+          <h2>Fresh fast delivered </h2>
+          <h2>Fresh fast delivered </h2>
+          <h2>Fresh fast delivered </h2>
+          <h2>Fresh fast delivered </h2>
+        </div>
       </div>
       <div className="flex flex-col items-center w-auto h-128 gap-46 ">
         <div className="w-316 h-57 px-22 pb-[111px] pt-[76px] flex flex-col gap-26 items-center">
