@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ImageUploadIcon } from "@/app/_icons/ImageUploadIcon.js";
 
 const UPLOAD_PRESET = "food-delivery";
 const CLOUD_NAME = "di7kfwrvb";
@@ -49,16 +50,22 @@ export default function UploadImage() {
   };
 
   return (
-    <div className="mb-8 p-6 bg-white rounded-lg shadow">
+    <div className=" relative w-103 h-34.5 bg-[#ECF1FE] rounded-md border border-[#2563EB33] gap-2 border-dashed flex flex-col justify-center items-center ">
+      {/* <div className=" h-8 w-8 bg-white rounded-full flex justify-center items-center ">
+        <ImageUploadIcon />
+      </div>
+      <p className="font-medium text-[14px]">
+        Choose a file or drag & drop it here
+      </p> */}
+      {/*  bg-[#2563EB33]opacity-20 */}
       <input
         type="file"
         accept="image/*"
         onChange={handleLogoUpload}
         disabled={uploading}
-        className="mb-4 p-2 border border-gray-300 rounded"
+        // className="w-103 h-34.5 rounded-md "
       />
       {uploading && <p className="text-blue-600">Uploading...</p>}
-
       {logoUrl && (
         <div className="mt-4">
           <p className="text-green-600 font-semibold mb-2">Logo uploaded!</p>

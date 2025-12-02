@@ -14,8 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Categories } from "./Categories.js";
-import { CategoriesFood } from "./CategoriesFood.js";
+import { Categories } from "@/app/_components/Categories.js";
+import { CategoriesFood } from "@/app/_components/CategoriesFood.js";
+import { CategoryButton } from "@/app/_components/CategoryButton";
 
 export default function DetailManage() {
   return (
@@ -47,7 +48,17 @@ export default function DetailManage() {
           </div>
         </div>
         <div className="flex flex-col pt-6 pl-6 pr-10 w-[1235px] h-360 bg-[#F4F4F5CC] gap-6">
-          <Categories />
+          <div className="w-[1171px] h-59 flex flex-col gap-6 items-end justify-between">
+            <div className="bg-black rounded-full w-9 h-9"></div>
+            <div className="w-[1171px] h-44 flex flex-col bg-white rounded-xl p-6 gap-4">
+              <p className="font-semibold text-[20px]">Dishes category</p>
+              <div className="w-[1123px] h-21 flex ">
+                <CategoryButton title="All Dishes" />
+                <Categories />
+              </div>
+            </div>
+          </div>
+
           <div className="w-[1171px] h-185">
             <div className="mb-8 p-6 bg-white rounded-lg shadow flex flex-col">
               <div className="font-semibold text-[20px]">Appetizers</div>
@@ -55,7 +66,7 @@ export default function DetailManage() {
                 <CategoriesFood />
 
                 <p className="font-medium text-[14px] w-[154px] text-center">
-                  Add new Dish to Appetizers{" "}
+                  Add new Dish to Appetizers
                 </p>
               </div>
             </div>

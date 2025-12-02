@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/app/_icons/PlusIcon.js";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import UploadImage from "./UploadImage.js";
+import UploadImage from "@/app/_components/UploadImage.js";
 
 export const CategoriesFood = () => {
   const handleSubmit = async () => {
