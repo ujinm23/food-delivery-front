@@ -17,8 +17,40 @@ import {
 import { Categories } from "@/app/_components/Categories.js";
 import { CategoriesFood } from "@/app/_components/CategoriesFood.js";
 import { CategoryButton } from "@/app/_components/CategoryButton";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { ProductCard } from "@/app/_components/ProductCard.js";
 
 export default function DetailManage() {
+  const [categories, setCategories] = useState([]);
+  const getCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:999/foodcategory");
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getCategories();
+  }, []);
+
+  const [food, setFood] = useState([]);
+  const getFood = async () => {
+    try {
+      const response = await axios.get("http://localhost:999/food");
+      setFood(response.data);
+    } catch (error) {
+      console.error("Error fetching foods:", error);
+    }
+  };
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getFood();
+  }, []);
+
   return (
     <div className="flex justify-center">
       <div className="flex justify-center w-360 h-256 ">
@@ -52,22 +84,22 @@ export default function DetailManage() {
             <div className="bg-black rounded-full w-9 h-9"></div>
             <div className="w-[1171px] h-44 flex flex-col bg-white rounded-xl p-6 gap-4">
               <p className="font-semibold text-[20px]">Dishes category</p>
-              <div className="w-[1123px] h-21 flex ">
-                <CategoryButton title="All Dishes" />
+              <div className="w-[1123px] h-21 flex flex-wrap gap-3 cursor-pointer">
+                <CategoryButton title="All dishes" />
+                {categories.map((category) => (
+                  <CategoryButton key={category.id} title={category.name} />
+                ))}
                 <Categories />
               </div>
             </div>
           </div>
 
           <div className="w-[1171px] h-185">
-            <div className="mb-8 p-6 bg-white rounded-lg shadow flex flex-col">
+            <div className="mb-8 p-6 bg-white rounded-lg shadow flex flex-col gap-4">
               <div className="font-semibold text-[20px]">Appetizers</div>
-              <div className="w-[270.75px] h-[241px] flex flex-col justify-center items-center gap-6 border-[#EF4444]  border-dashed border rounded-lg mt-4">
+              <div className="w-[1131px] flex flex-wrap gap-3 cursor-pointer">
                 <CategoriesFood />
-
-                <p className="font-medium text-[14px] w-[154px] text-center">
-                  Add new Dish to Appetizers
-                </p>
+                <ProductCard />
               </div>
             </div>
           </div>
