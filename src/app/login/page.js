@@ -25,7 +25,12 @@ export default function Login() {
         values
       );
       router.push("/");
-      console.log("LOGIN FORM DATA:", values);
+      console.log("this is response:", response.data.token);
+
+      localStorage.setItem("token", response.data.token);
+
+      console.log("Push to homepage success");
+      renderToStaticMarkup.success("Login successful!");
     } catch (err) {
       console.log(err);
       if (err.response && err.response.data) {
