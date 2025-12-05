@@ -1,21 +1,9 @@
 "use client";
 import { Logo } from "@/app/_icons/Logo.js";
-import { PlusIcon } from "@/app/_icons/PlusIcon.js";
 import { DashboardIcon } from "@/app/_icons/DashboardIcon.js";
 import { TruckIcon } from "@/app/_icons/TruckIcon.js";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Categories } from "@/app/_components/Categories.js";
-import { CategoriesFood } from "@/app/_components/CategoriesFood.js";
+import { Food } from "@/app/_components/Food.js";
 import { CategoryButton } from "@/app/_components/CategoryButton";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -23,6 +11,8 @@ import { ProductCard } from "@/app/_components/ProductCard.js";
 
 export default function DetailManage() {
   const [categories, setCategories] = useState([]);
+  const [food, setFood] = useState([]);
+
   const getCategories = async () => {
     try {
       const response = await axios.get("http://localhost:999/foodcategory");
@@ -32,12 +22,6 @@ export default function DetailManage() {
     }
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getCategories();
-  }, []);
-
-  const [food, setFood] = useState([]);
   const getFood = async () => {
     try {
       const response = await axios.get("http://localhost:999/food");
@@ -49,6 +33,10 @@ export default function DetailManage() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getFood();
+  }, []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getCategories();
   }, []);
 
   return (
@@ -87,7 +75,7 @@ export default function DetailManage() {
               <div className="w-[1123px] h-21 flex flex-wrap gap-3 cursor-pointer">
                 <CategoryButton title="All dishes" />
                 {categories.map((category) => (
-                  <CategoryButton key={category.id} title={category.name} />
+                  <CategoryButton key={category._id} title={category.name} />
                 ))}
                 <Categories />
               </div>
@@ -98,8 +86,10 @@ export default function DetailManage() {
             <div className="mb-8 p-6 bg-white rounded-lg shadow flex flex-col gap-4">
               <div className="font-semibold text-[20px]">Appetizers</div>
               <div className="w-[1131px] flex flex-wrap gap-3 cursor-pointer">
-                <CategoriesFood />
-                <ProductCard />
+                <Food />
+                {food.map((food) => (
+                  <ProductCard key={food._id} food={food} {...food} />
+                ))}
               </div>
             </div>
           </div>

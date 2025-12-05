@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogDescription,
+  DialogClose,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -30,7 +31,7 @@ export const Categories = () => {
     //   }
     // };
     console.log("hello");
-    const response = await axios.post("http://localhost:999/foodcategory", {
+    await axios.post("http://localhost:999/foodcategory", {
       name: categoryName,
     });
     setCategoryName("");
@@ -92,7 +93,9 @@ export const Categories = () => {
           />
         </div>
         <DialogFooter className="h-16 flex items-end">
-          <Button onClick={handleSubmit}>Add category</Button>
+          <DialogClose asChild>
+            <Button onClick={handleSubmit}>Add category</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
