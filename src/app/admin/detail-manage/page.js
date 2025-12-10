@@ -8,10 +8,10 @@ import { CategoryButton } from "@/app/_components/CategoryButton";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ProductCard } from "@/app/_components/ProductCard.js";
+import { ProductList } from "@/app/_components/ProductList";
 
 export default function DetailManage() {
   const [categories, setCategories] = useState([]);
-  const [food, setFood] = useState([]);
 
   const getCategories = async () => {
     try {
@@ -22,18 +22,6 @@ export default function DetailManage() {
     }
   };
 
-  const getFood = async () => {
-    try {
-      const response = await axios.get("http://localhost:999/food");
-      setFood(response.data);
-    } catch (error) {
-      console.error("Error fetching foods:", error);
-    }
-  };
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getFood();
-  }, []);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getCategories();
@@ -41,8 +29,8 @@ export default function DetailManage() {
 
   return (
     <div className="flex justify-center">
-      <div className="flex justify-center w-360 h-256 ">
-        <div className="flex flex-col w-[205px] h-256 px-5 pt-9 gap-10">
+      <div className="flex justify-center w-360 h-auto ">
+        <div className="flex flex-col w-[205px] h-256 px-5 pt-9 gap-10 ">
           <div className="w-[146px] h-11 flex">
             <div className="w-22 flex justify-center">
               <Logo className="w-[46px] h-[37.29px]" />
@@ -67,7 +55,7 @@ export default function DetailManage() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col pt-6 pl-6 pr-10 w-[1235px] h-360 bg-[#F4F4F5CC] gap-6">
+        <div className="flex flex-col pt-6 pl-6 pr-10 w-[1235px]  bg-[#F4F4F5CC] gap-6">
           <div className="w-[1171px] h-59 flex flex-col gap-6 items-end justify-between">
             <div className="bg-black rounded-full w-9 h-9"></div>
             <div className="w-[1171px] h-44 flex flex-col bg-white rounded-xl p-6 gap-4">
@@ -82,17 +70,13 @@ export default function DetailManage() {
             </div>
           </div>
 
-          <div className="w-[1171px] h-185">
-            <div className="mb-8 p-6 bg-white rounded-lg shadow flex flex-col gap-4">
-              <div className="font-semibold text-[20px]">Appetizers</div>
-              <div className="w-[1131px] flex flex-wrap gap-3 cursor-pointer">
-                <Food />
-                {food.map((food) => (
-                  <ProductCard key={food._id} food={food} {...food} />
-                ))}
-              </div>
-            </div>
-          </div>
+          {categories.map((category) => (
+            <ProductList
+              key={category._id}
+              title={category.name}
+              categoryId={category._id}
+            />
+          ))}
         </div>
       </div>
     </div>

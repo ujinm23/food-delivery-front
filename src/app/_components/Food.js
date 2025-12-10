@@ -16,8 +16,9 @@ import { Label } from "@/components/ui/label";
 import UploadImage from "@/app/_components/UploadImage.js";
 import { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 
-export const Food = () => {
+export const Food = ({ categoryId, category }) => {
   const [foodName, setFoodName] = useState("");
   const [foodPrice, setFoodPrice] = useState("");
   const [foodIngredients, setFoodIngredients] = useState("");
@@ -59,10 +60,12 @@ export const Food = () => {
       price: foodPrice,
       ingredients: foodIngredients,
       imageURL: imageURL,
+      category: categoryId,
     });
     console.log("response:", response.data);
     setFoodName("");
   };
+
   return (
     <div className="w-[270.75px] h-[241px] flex flex-col justify-center items-center gap-6 border-[#EF4444]  border-dashed border rounded-lg ">
       <Dialog>
@@ -72,13 +75,13 @@ export const Food = () => {
               <PlusIcon />
             </Button>
             <p className="font-medium text-[14px] w-[154px] text-center">
-              Add new Dish to Appetizers
+              Add new Dish to {category}
             </p>
           </div>
         </DialogTrigger>
         <DialogContent className="w-115 h-148 bg-white rounded-xl p-6 flex flex-col gap-6">
           <DialogHeader className="h-13 text-black">
-            <DialogTitle>Add new Dish to Appetizers</DialogTitle>
+            <DialogTitle>Add new Dish to {category} </DialogTitle>
           </DialogHeader>
 
           <div className="flex gap-6">
