@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/app/_icons/PlusIcon.js";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { toast } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
 
@@ -22,43 +22,53 @@ export const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
 
-  const handleSubmit = async () => {
-    //   try {
-    //     const response = await axios.get("http://localhost:999/foodcategory");
-    //     setCategoryName(response.data);
-    //   } catch (error) {
-    //     console.error("Error fetching categories:", error);
-    //   }
-    // };
-    console.log("hello");
-    await axios.post("http://localhost:999/foodcategory", {
-      name: categoryName,
-    });
-    setCategoryName("");
-  };
-
-  //  const handleAddCategoryButton = async () => {
-  //   if (!newCategoryName.trim()) {
+  // const handleSubmit = async () => {
+  //   if (!categoryName.trim()) {
   //     toast.error("Please enter a valid category name.");
   //     return;
   //   }
-  //   try {
-  //     const token = localStorage.getItem("token") || "";
-  //     await axios.post("http://localhost:999/foodcategory", {
+  //   const token = localStorage.getItem("token") || "";
+  //   console.log("hello");
+  //   await axios.post(
+  //     "http://localhost:999/foodcategory",
+  //     {
   //       name: categoryName,
-  //     }, {
+  //     },
+  //     {
   //       headers: {
-  //         'Authorization': `Bearer ${token}`
+  //         Authorization: `Bearer ${token}`,
+  //       },
   //     }
-  //     });
-  //     setCategories([...categories, response.data]);
-  //     toast.success("Category added successfully!");
-  //     setCategoryName("");
-  //   } catch (error) {
-  //     console.error("Error adding category:", error);
-  //     toast.error("Failed to add category. Please try again.");
-  //   }
+  //   );
+  //   setCategoryName("");
   // };
+
+  const handleSubmit = async () => {
+    if (!categoryName.trim()) {
+      toast.error("Please enter a valid category name.");
+      return;
+    }
+    try {
+      const token = localStorage.getItem("token") || "";
+      await axios.post(
+        "https://food-delivery-back-3biv.onrender.com/foodcategory",
+        {
+          name: categoryName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCategories([...categories, response.data]);
+      toast.success("Category added successfully!");
+      setCategoryName("");
+    } catch (error) {
+      console.error("Error adding category:", error);
+      toast.error("Failed to add category. Please try again.");
+    }
+  };
   //  const handleDeleteButton = async (id) => {
   //   try {
   //     const response = await axios.delete(`http://localhost:999/foodcategory/${id}`

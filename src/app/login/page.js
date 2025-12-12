@@ -24,11 +24,11 @@ export default function Login() {
         "http://localhost:999/authentication/login",
         values
       );
-      router.push("/");
+
       console.log("this is response:", response.data.token);
 
       localStorage.setItem("token", response.data.token);
-
+      router.push("/");
       console.log("Push to homepage success");
       renderToStaticMarkup.success("Login successful!");
     } catch (err) {

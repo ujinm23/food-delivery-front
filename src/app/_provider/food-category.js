@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { toast } from "sonner";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const FoodCategoryContext = createContext(null);
@@ -37,15 +38,15 @@ export const FoodCategoryProvider = ({ children }) => {
     }
   };
 
-  const deleteCategory = async (id) => {
-    try {
-      await axios.delete(`http://localhost:999/foodcategory/${id}`);
-      toast.success("Category added successfully!");
-      fetchCategories();
-    } catch (error) {
-      toast.error("Failed to delete category. Please try again.");
-    }
-  };
+  // const deleteCategory = async (id) => {
+  //   try {
+  //     await axios.delete(`http://localhost:999/foodcategory/${id}`);
+  //     toast.success("Category added successfully!");
+  //     fetchCategories();
+  //   } catch (error) {
+  //     toast.error("Failed to delete category. Please try again.");
+  //   }
+  // };
 
   useEffect(() => {
     fetchCategories();
@@ -56,7 +57,6 @@ export const FoodCategoryProvider = ({ children }) => {
       value={{
         categories,
         loading,
-        deleteCategory,
       }}
     >
       {children}

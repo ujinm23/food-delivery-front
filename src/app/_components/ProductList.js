@@ -11,7 +11,7 @@ export function ProductList(props) {
   const getFood = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:999/food/category/${props.categoryId}`
+        `https://food-delivery-back-3biv.onrender.com/food/category/${props.categoryId}`
       );
       setFood(response.data);
     } catch (error) {

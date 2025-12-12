@@ -9,13 +9,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ProductCard } from "@/app/_components/ProductCard.js";
 import { ProductList } from "@/app/_components/ProductList";
+import { useRouter } from "next/navigation";
 
 export default function DetailManage() {
+  const router = useRouter();
+
   const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:999/foodcategory");
+      const response = await axios.get(
+        "https://food-delivery-back-3biv.onrender.com/foodcategory"
+      );
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -49,7 +54,10 @@ export default function DetailManage() {
               <DashboardIcon />
               <p className="text-[#FAFAFA] text-[14px]">Food menu</p>
             </div>
-            <div className="w-[165px] h-10 py-[9px] flex pl-6 gap-2.5">
+            <div
+              className="w-[165px] h-10 py-[9px] flex pl-6 gap-2.5"
+              onClick={() => router.push("/admin/orders")}
+            >
               <TruckIcon />
               <p>Orders</p>
             </div>

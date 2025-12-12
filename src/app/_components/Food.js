@@ -55,13 +55,16 @@ export const Food = ({ categoryId, category }) => {
 
     console.log("helloFood");
 
-    const response = await axios.post("http://localhost:999/food", {
-      name: foodName,
-      price: foodPrice,
-      ingredients: foodIngredients,
-      imageURL: imageURL,
-      category: categoryId,
-    });
+    const response = await axios.post(
+      "https://food-delivery-back-3biv.onrender.com/food",
+      {
+        name: foodName,
+        price: foodPrice,
+        ingredients: foodIngredients,
+        imageURL: imageURL,
+        category: categoryId,
+      }
+    );
     console.log("response:", response.data);
     setFoodName("");
   };
