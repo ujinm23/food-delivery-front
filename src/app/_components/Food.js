@@ -63,9 +63,15 @@ export const Food = ({ categoryId, category }) => {
         ingredients: foodIngredients,
         imageURL: imageURL,
         category: categoryId,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
       }
     );
-    console.log("response:", response.data);
+
     setFoodName("");
   };
 

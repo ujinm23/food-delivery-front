@@ -24,11 +24,14 @@ export const FoodCategoryProvider = ({ children }) => {
     console.log("token");
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:999/foodcategory", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://food-delivery-back-3biv.onrender.com/foodcategory",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching food categories:", error);

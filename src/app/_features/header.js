@@ -9,8 +9,14 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { Button } from "@/components/ui/button";
 export function Header() {
   return (
@@ -25,9 +31,25 @@ export function Header() {
           <p className="text-[#71717A] font-normal text-[12px]">Add Location</p>
           <ChevronRight />
         </div>
-        <div className="w-9 bg-[#FFFFFF] h-9 rounded-full flex justify-center items-center">
-          <ShoppingCartIcon />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="w-9 bg-[#FFFFFF] h-9 rounded-full flex justify-center items-center">
+              <ShoppingCartIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-[535px] h-256 bg-[#404040] rounded-xl p-8 flex flex-col text-white">
+            <DropdownMenuLabel className="text-[20px] font-semibold mb-4">
+              Your Cart
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <p className="text-[14px] font-normal">
+                Your cart is empty. Start adding some items!
+              </p>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="w-9 bg-[#EF4444] h-9 rounded-full flex justify-center items-center">
