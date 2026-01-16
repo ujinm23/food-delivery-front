@@ -2,12 +2,12 @@
 import Image from "next/image";
 import { Footer } from "@/app/_features/footer.js";
 import { Header } from "@/app/_features/header.js";
-import { ProductCard } from "@/app/_components/ProductCard.js";
-import { ProductList } from "@/app/_components/ProductList.js";
+import { ProductCard } from "@/app/_components/FoodCategory/ProductCard.js";
+import { ProductList } from "@/app/_components/FoodCategory/ProductList.js";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Menu } from "lucide-react";
-import { MenuContainer } from "./_components/MenuContainer";
+import { MenuContainer } from "./_components/FoodCategory/MenuContainer";
 
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
   const getCategories = async () => {
     try {
       const response = await axios.get(
-        "https://food-delivery-back-3biv.onrender.com/foodcategory"
+        "http://localhost:999/foodcategory"
       );
       setCategories(response.data);
     } catch (error) {
@@ -40,10 +40,10 @@ export default function Home() {
           loading="eager"
         />
       </div>
-      <div className="w-auto h-auto bg-[#404040] p-22 flex flex-col">
+      <div className="items-center h-auto bg-[#404040] p-22 flex flex-col">
         <div>
           <div>
-            <div className="flex flex-col gap-13.5">
+            <div className="flex  flex-col gap-13.5">
               {categories.map((category) => (
                 <MenuContainer
                   key={category._id}

@@ -1,8 +1,9 @@
 import { LogoVertical } from "@/app/_components/LogoVertical.js";
 import { LocationIcon } from "../_icons/LocationIcon";
 import { ChevronRight } from "../_icons/ChevronRight";
-import { ShoppingCartIcon } from "../_icons/ShoppingCartIcon";
+
 import { UserIcon } from "../_icons/UserIcon";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
+import { Cart } from "../_context/Cart";
 export function Header() {
   return (
     <div className="w-auto h-17 bg-[#18181B] flex justify-between px-22 items-center">
@@ -31,24 +33,7 @@ export function Header() {
           <p className="text-[#71717A] font-normal text-[12px]">Add Location</p>
           <ChevronRight />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="w-9 bg-[#FFFFFF] h-9 rounded-full flex justify-center items-center">
-              <ShoppingCartIcon />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[535px] h-256 bg-[#404040] rounded-xl p-8 flex flex-col text-white">
-            <DropdownMenuLabel className="text-[20px] font-semibold mb-4">
-              Your Cart
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <p className="text-[14px] font-normal">
-                Your cart is empty. Start adding some items!
-              </p>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Cart />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

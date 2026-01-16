@@ -7,7 +7,7 @@ import { ImageUploadIcon } from "@/app/_icons/ImageUploadIcon.js";
 const UPLOAD_PRESET = "food-delivery";
 const CLOUD_NAME = "di7kfwrvb";
 
-export default function UploadImage(imageURL, setImageURL) {
+export function UploadImage(imageURL, setImageURL) {
   const [logoUrl, setLogoUrl] = useState("");
   const [uploading, setUploading] = useState(false);
 

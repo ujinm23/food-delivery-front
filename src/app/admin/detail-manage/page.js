@@ -2,13 +2,13 @@
 import { Logo } from "@/app/_icons/Logo.js";
 import { DashboardIcon } from "@/app/_icons/DashboardIcon.js";
 import { TruckIcon } from "@/app/_icons/TruckIcon.js";
-import { Categories } from "@/app/_components/Categories.js";
-import { Food } from "@/app/_components/Food.js";
-import { CategoryButton } from "@/app/_components/CategoryButton";
+import { Categories } from "@/app/_components/Category/Categories.js";
+import { Food } from "@/app/_features/Food.js";
+import { CategoryButton } from "@/app/_components/Category/CategoryButton";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ProductCard } from "@/app/_components/ProductCard.js";
-import { ProductList } from "@/app/_components/ProductList";
+import { ProductCard } from "@/app/_components/FoodCategory/ProductCard.js";
+import { ProductList } from "@/app/_components/FoodCategory/ProductList";
 import { useRouter } from "next/navigation";
 
 export default function DetailManage() {
@@ -19,7 +19,7 @@ export default function DetailManage() {
   const getCategories = async () => {
     try {
       const response = await axios.get(
-        "https://food-delivery-back-3biv.onrender.com/foodcategory"
+        "http://localhost:999/foodcategory"
       );
       setCategories(response.data);
     } catch (error) {

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ProductCard1 } from "@/app/_components/ProductCard1.js";
-import { Food } from "@/app/_components/Food.js";
+import { ProductCard1 } from "@/app/_components/HomeFood.js/ProductCard1.js";
+import { Food } from "@/app/_features/Food.js";
 
 export function MenuContainer(props) {
   const [food, setFood] = useState([]);
@@ -11,7 +11,7 @@ export function MenuContainer(props) {
   const getFood = async () => {
     try {
       const response = await axios.get(
-        `https://food-delivery-back-3biv.onrender.com/food/category/${props.categoryId}`
+        `http://localhost:999/food/category/${props.categoryId}`
       );
       setFood(response.data);
     } catch (error) {
@@ -22,16 +22,16 @@ export function MenuContainer(props) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getFood();
   }, []);
-  console.log("Food props:", props);
+
 
   return (
-    <div className="w-[1171px] h-auto">
+    <div className="w-316 h-auto">
       <div className="p-6 rounded-lg shadow flex flex-col gap-13.5">
         <div className="font-semibold text-[30px] text-white">
           {" "}
           {props.title}
         </div>
-        <div className="w-[1131px] flex flex-wrap gap-9 cursor-pointer">
+        <div className="w-316 flex flex-wrap gap-9 cursor-pointer">
           {food.map((food) => (
             <ProductCard1 key={food._id} food={food} {...food} />
           ))}

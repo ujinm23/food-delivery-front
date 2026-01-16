@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/app/_icons/PlusIcon.js";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import UploadImage from "@/app/_components/UploadImage.js";
+import {UploadImage} from "@/app/_components/FoodCategory/UploadImage.js";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -56,7 +56,7 @@ export const Food = ({ categoryId, category }) => {
     console.log("helloFood");
 
     const response = await axios.post(
-      "https://food-delivery-back-3biv.onrender.com/food",
+      "http://localhost:999/food",
       {
         name: foodName,
         price: foodPrice,

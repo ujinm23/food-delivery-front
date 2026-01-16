@@ -51,7 +51,7 @@ export const Categories = () => {
     try {
       const token = localStorage.getItem("token") || "";
       await axios.post(
-        "https://food-delivery-back-3biv.onrender.com/foodcategory",
+        "http://localhost:999/foodcategory",
         {
           name: categoryName,
         },

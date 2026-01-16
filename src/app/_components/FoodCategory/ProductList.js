@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ProductCard } from "@/app/_components/ProductCard.js";
-import { Food } from "@/app/_components/Food.js";
+import { ProductCard } from "@/app/_components/FoodCategory/ProductCard.js";
+import { Food } from "@/app/_features/Food.js";
 
 export function ProductList(props) {
   const [food, setFood] = useState([]);
@@ -11,7 +11,7 @@ export function ProductList(props) {
   const getFood = async () => {
     try {
       const response = await axios.get(
-        `https://food-delivery-back-3biv.onrender.com/food/category/${props.categoryId}`
+        `http://localhost:999/food/category/${props.categoryId}`
       );
       setFood(response.data);
     } catch (error) {

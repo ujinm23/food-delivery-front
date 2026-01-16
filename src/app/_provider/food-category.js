@@ -25,7 +25,7 @@ export const FoodCategoryProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://food-delivery-back-3biv.onrender.com/foodcategory",
+        "http://localhost:999/foodcategory",
         {
           headers: {
             Authorization: `Bearer ${token}`,
