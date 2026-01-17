@@ -305,7 +305,7 @@ export function ShoppingCart() {
   const [orders, setOrders] = useState([]);
 
   const handleCheckout = async () => {
-    setError(""); // reset error
+    setError("");
 
     if (!address.trim()) {
       setError("Please enter a delivery location");
@@ -324,10 +324,10 @@ export function ShoppingCart() {
 
     const orderData = {
       items: cart.map((item) => ({
-        productId: item._id, // backend expects this field
+        productId: item._id,
         quantity: item.quantity,
       })),
-      location: address, // backend expects 'location'
+      location: address,
       totalPrice,
     };
 
@@ -345,11 +345,9 @@ export function ShoppingCart() {
       );
 
       console.log("ORDER SENT", response.data);
-      setOrders((prev) => [response.data, ...prev]);
 
-      setOrderSuccess(true); // show success dialog
-      setAddress(""); // clear address field
-      clearCart(); // clear the cart
+      setOrderSuccess(true); // ✅ dialog shows
+      setAddress(""); // ✅ safe
     } catch (err) {
       console.error("Order failed:", err);
       setError(err.response?.data?.message || "Failed to place order");
@@ -451,7 +449,7 @@ export function ShoppingCart() {
           <span className="font-semibold text-black">${totalPrice + 0.99}</span>
         </div>
 
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end ">
           <Button
             className="bg-[#EF4444] rounded-full h-11"
             onClick={handleCheckout}
@@ -475,7 +473,10 @@ export function ShoppingCart() {
           <AlertDialogFooter>
             <AlertDialogCancel
               className="w-47 h-11 bg-[#F4F4F5] rounded-full"
-              onClick={() => setOrderSuccess(false)}
+              onClick={() => {
+                clearCart();
+                setOrderSuccess(false);
+              }}
             >
               Back to home
             </AlertDialogCancel>

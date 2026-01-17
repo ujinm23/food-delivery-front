@@ -1,7 +1,8 @@
 "use client";
 
 import { useCart } from "@/app/_context/CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import {
   Drawer,
@@ -23,6 +24,7 @@ import { X } from "lucide-react";
 export function Cart() {
   const [activeTab, setActiveTab] = useState("tab1");
   const { cart } = useCart();
+  const [orders, setOrders] = useState([]);
 
   const tabs = [
     { id: "tab1", label: "Cart" },
@@ -31,8 +33,31 @@ export function Cart() {
 
   const tabContent = {
     tab1: <ShoppingCart />,
-    tab2: <OrderCart />,
+    tab2: <OrderCart orders={orders} />,
   };
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get("http://localhost:999/order", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("ORDERS FROM API:", res.data);
+
+        // 🔴 THIS LINE DEPENDS ON BACKEND RESPONSE
+        setOrders(res.data); // OR res.data.orders
+      } catch (err) {
+        console.error("Failed to fetch orders", err);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   return (
     <Drawer>

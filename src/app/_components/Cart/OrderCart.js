@@ -1,52 +1,62 @@
 "use client";
-import { Empty } from "../empty";
+
+import { OrderLine } from "@/app/_icons/OrderLine";
+import {
+  IceCreamBowl,
+  ListOrderedIcon,
+  MapIcon,
+  TimerIcon,
+} from "lucide-react";
 
 export function OrderCart({ orders }) {
-  if (!orders || orders.length === 0) {
-    return (
-      <Empty
-        title="No orders yet?"
-        description="🍕 You haven't placed any orders yet. Start exploring our menu and satisfy your cravings!"
-      />
-    );
-  }
+  console.log("ORDERS IN OrderCart:", orders);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-14 bg-white rounded-[20px] p-4">
-        <p className="text-[20px] font-semibold text-black">Order history</p>
-        {orders.map((order) => (
-          <div
-            key={order._id}
-            className="bg-white rounded-[15px] p-4 flex flex-col gap-2"
-          >
-            <div className="flex justify-between">
-              <span className="font-bold text-black">${order.totalPrice}</span>
-              <span className="text-gray-500">#{order._id.slice(-5)}</span>
-            </div>
-            <div className="flex flex-col gap-1">
+    <div className="bg-white w-117.75 p-4 gap-5 rounded-xl">
+      <h2 className="text-[20px] font-semibold text-black mb-4">
+        Order history
+      </h2>
+
+      {orders.map((order, index) => (
+        <div key={order._id} className="px-4">
+          <div className="flex justify-between">
+            <p className="text-black font-semibold">${order.totalPrice}</p>
+            <p className="text-black"> {order.shortCode} </p>
+            <p className="text-[12px] px-2.5 py-1.5 border border-red-600 rounded-full ">
+              {order.status}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2.5 text-[12px]">
+            <div className="mt-2 flex flex-col">
               {order.items.map((item) => (
-                <div key={item.productId} className="text-black">
-                  • {item.name} x {item.quantity}
+                <div
+                  key={item._id}
+                  className="flex justify-between items-center"
+                >
+                  <div key={item._id} className=" text-[#71717A] flex gap-2">
+                    <IceCreamBowl className="w-4 h-4 " />
+                    <p>{item.name}</p>
+                  </div>
+                  <p className="text-black text-[12px]">x {item.quantity}</p>
                 </div>
               ))}
             </div>
-            <div className="text-gray-500 text-sm">
-              {new Date(order.createdAt).toLocaleDateString()}
+            <div className="flex gap-2 text-[#71717A] items-center">
+              <MapIcon className="w-4 h-4 " />
+              <p>{order.location}</p>
             </div>
-            <div
-              className={`font-semibold ${
-                order.status === "Pending"
-                  ? "text-yellow-500"
-                  : "text-green-500"
-              }`}
-            >
-              {order.status}
+            <div className="flex gap-2 text-[#71717A] items-center">
+              <TimerIcon className="w-4 h-4 " />
+              <p>{new Date(order.createdAt).toLocaleDateString()}</p>
             </div>
-            <div className="text-gray-500 text-sm">{order.location}</div>
           </div>
-        ))}
-      </div>
+
+          {/* Line between orders, but not after the last one */}
+          {index < orders.length - 1 && (
+            <hr className="border-dashed border-gray-300 my-4" />
+          )}
+        </div>
+      ))}
     </div>
   );
 }
