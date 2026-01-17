@@ -1,7 +1,7 @@
 import { LogoVertical } from "@/app/_components/LogoVertical.js";
 import { LocationIcon } from "../_icons/LocationIcon";
 import { ChevronRight } from "../_icons/ChevronRight";
-
+import { useUser } from "@/app/_provider/UserProvider";
 import { UserIcon } from "../_icons/UserIcon";
 
 import {
@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Cart } from "../_context/Cart";
 export function Header() {
+  const { user, logout } = useUser();
   return (
     <div className="w-auto h-17 bg-[#18181B] flex justify-between px-22 items-center">
       <LogoVertical />
@@ -43,8 +44,11 @@ export function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[188px] h-[104px] rounded-xl flex items-center justify-center">
             <DropdownMenuLabel className="flex flex-col gap-2">
-              test@gmail.com
-              <div className="rounded-full bg-[#F4F4F5] flex justify-center items-center px-3 py-2">
+              {user?.email}
+              <div
+                onClick={logout}
+                className="rounded-full bg-[#F4F4F5] flex justify-center items-center px-3 py-2 cursor-pointer"
+              >
                 Sign out
               </div>
             </DropdownMenuLabel>

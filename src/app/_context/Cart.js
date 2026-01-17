@@ -48,9 +48,7 @@ export function Cart() {
       </DrawerTrigger>
 
       <DrawerContent className="w-133.75 max-w-full p-8 bg-[#404040] text-white gap-6 flex-1 overflow-y-auto  rounded-l-[20px]">
-      
-          <DrawerTitle className="sr-only h-0">Shopping Cart</DrawerTitle>
-
+        <DrawerTitle className="sr-only h-0">Shopping Cart</DrawerTitle>
 
         <div className="flex justify-between">
           <div className="flex gap-3">
@@ -81,7 +79,7 @@ export function Cart() {
         </div>
 
         {/* Tab content */}
-        <div>{tabContent[activeTab]}</div>
+        <div className="flex justify-center">{tabContent[activeTab]}</div>
       </DrawerContent>
     </Drawer>
   );

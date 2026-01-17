@@ -1,40 +1,63 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { createContext, use, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 const UserContext = createContext(null);
 
 export const useUser = () => {
   const context = useContext(UserContext);
-
   if (!context) {
-    throw new Error("useUser must be used within a <UserProvider>");
+    throw new Error("useUser must be used within UserProvider");
   }
   return context;
 };
 
 export default function UserProvider({ children }) {
   const router = useRouter();
+  const pathname = usePathname();
+
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    setUser(null);
+    router.push("/login");
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
 
+    const isAuthPage = pathname === "/login" || pathname === "/signup";
+
+    // 🔐 NOT logged in
     if (!token) {
-      router.push("/login");
+      if (!isAuthPage) {
+        router.push("/login");
+      }
+      setLoading(false);
       return;
     }
 
-    setToken(token);
-    setLoading(false);
-  }, [router]);
+    // ✅ Logged in
+    setUser({ email });
 
-  if (loading) return <div>...loading</div>;
+    // 🚫 Prevent logged-in users from seeing login/signup
+    if (isAuthPage) {
+      router.push("/");
+    }
+
+    setLoading(false);
+  }, [pathname, router]);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, logout }}>
+      {children}
+    </UserContext.Provider>
   );
 }
