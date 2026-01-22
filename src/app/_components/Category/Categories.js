@@ -21,6 +21,7 @@ import axios from "axios";
 export const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
+  const [open, setOpen] = useState(false);
 
   // const handleSubmit = async () => {
   //   if (!categoryName.trim()) {
@@ -48,28 +49,39 @@ export const Categories = () => {
       toast.error("Please enter a valid category name.");
       return;
     }
+
+    const token = localStorage.getItem("token") || "";
+    const toastId = toast.loading("Adding category...");
+
     try {
-      const token = localStorage.getItem("token") || "";
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:999/foodcategory",
-        {
-          name: categoryName,
-        },
+        { name: categoryName },
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
-      setCategories([...categories, response.data]);
-      toast.success("Category added successfully!");
+
+      setCategories((prev) => [...prev, response.data]);
+
+      toast.success("Category added successfully 🎉", {
+        id: toastId,
+      });
+
       setCategoryName("");
+      setOpen(false); // ✅ CLOSE dialog ONLY on success
     } catch (error) {
       console.error("Error adding category:", error);
-      toast.error("Failed to add category. Please try again.");
+
+      toast.error("Failed to add category ❌", {
+        id: toastId,
+      });
     }
   };
+
   //  const handleDeleteButton = async (id) => {
   //   try {
   //     const response = await axios.delete(`http://localhost:999/foodcategory/${id}`
@@ -82,7 +94,7 @@ export const Categories = () => {
   //   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="h-9 w-9 bg-[#EF4444] rounded-full flex justify-center items-center">
           <PlusIcon />
@@ -104,9 +116,7 @@ export const Categories = () => {
           />
         </div>
         <DialogFooter className="h-16 flex items-end">
-          <DialogClose asChild>
-            <Button onClick={handleSubmit}>Add category</Button>
-          </DialogClose>
+          <Button onClick={handleSubmit}>Add category</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

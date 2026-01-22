@@ -4,6 +4,8 @@ import { Logo } from "@/app/_icons/Logo.js";
 import { useCart } from "@/app/_context/CartContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { DashboardIcon } from "@/app/_icons/DashboardIcon.js";
 import { TruckIcon } from "@/app/_icons/TruckIcon.js";
 import { Button } from "@/components/ui/button";
@@ -92,7 +94,10 @@ export default function Admin() {
           </div>
         </div>
         <div className="flex flex-col pt-6 pl-6 pr-10 bg-[#F4F4F5CC] gap-6 items-end">
-          <div className="bg-black rounded-full w-9 h-9"></div>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
 
           {/* Tab content */}
           <div className="flex justify-center">{tabContent[activeTab]}</div>

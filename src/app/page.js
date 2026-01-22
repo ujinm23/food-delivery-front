@@ -9,15 +9,12 @@ import axios from "axios";
 import { Menu } from "lucide-react";
 import { MenuContainer } from "./_components/FoodCategory/MenuContainer";
 
-
 export default function Home() {
   const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:999/foodcategory"
-      );
+      const response = await axios.get("http://localhost:999/foodcategory");
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);

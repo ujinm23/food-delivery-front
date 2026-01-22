@@ -9,11 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/app/_icons/PlusIcon.js";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {UploadImage} from "@/app/_components/FoodCategory/UploadImage.js";
+import { UploadImage } from "@/app/_components/FoodCategory/UploadImage.js";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -23,6 +25,7 @@ export const Food = ({ categoryId, category }) => {
   const [foodPrice, setFoodPrice] = useState("");
   const [foodIngredients, setFoodIngredients] = useState("");
   const [foodImageURL, setFoodImageURL] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const uploadToCloudinary = async (file) => {
     const UPLOAD_PRESET = "food-delivery";
@@ -38,7 +41,7 @@ export const Food = ({ categoryId, category }) => {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
       console.log("Cloudinary response status:", response.status);
 
@@ -50,29 +53,56 @@ export const Food = ({ categoryId, category }) => {
   };
 
   const handleSubmit = async () => {
-    const imageURL = await uploadToCloudinary(foodImageURL);
-    // console.log("imageURL:", imageURL);
+    if (!foodName || !foodPrice || !foodImageURL) {
+      toast.error("Please fill all required fields");
+      return;
+    }
 
-    console.log("helloFood");
+    setLoading(true);
+    const toastId = toast.loading("Uploading food...");
 
-    const response = await axios.post(
-      "http://localhost:999/food",
-      {
-        name: foodName,
-        price: foodPrice,
-        ingredients: foodIngredients,
-        imageURL: imageURL,
-        category: categoryId,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-        },
+    try {
+      // 1️⃣ Upload image
+      const imageURL = await uploadToCloudinary(foodImageURL);
+      if (!imageURL) {
+        throw new Error("Image upload failed");
       }
-    );
 
-    setFoodName("");
+      // 2️⃣ Save food
+      await axios.post(
+        "http://localhost:999/food",
+        {
+          name: foodName,
+          price: foodPrice,
+          ingredients: foodIngredients,
+          imageURL: imageURL,
+          category: categoryId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+        },
+      );
+
+      toast.success("Food uploaded successfully 🍽️", {
+        id: toastId,
+      });
+
+      // 3️⃣ Reset form
+      setFoodName("");
+      setFoodPrice("");
+      setFoodIngredients("");
+      setFoodImageURL("");
+    } catch (error) {
+      console.error(error);
+      toast.error("Upload failed ❌", {
+        id: toastId,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -128,18 +158,17 @@ export const Food = ({ categoryId, category }) => {
           </div>
           <div className="w-103 flex flex-col gap-2">
             <Label htmlFor="name-3">Food image</Label>
-            <input
-              type="file"
-              name="foodImageURL"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                setFoodImageURL(file);
-              }}
+            <UploadImage
+              imageURL={foodImageURL}
+              setImageURL={setFoodImageURL}
             />
           </div>
           <DialogFooter className="h-16 flex items-end">
-            <Button onClick={handleSubmit}>Add Dish</Button>
+            <DialogClose asChild>
+              <Button onClick={handleSubmit} disabled={loading}>
+                {loading ? "Uploading..." : "Add Dish"}
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

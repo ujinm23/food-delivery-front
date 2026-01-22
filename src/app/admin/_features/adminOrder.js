@@ -1,28 +1,70 @@
 "use client";
-import { CalendarIcon } from "@/app/_icons/CalendarIcon.js";
-import { Logo } from "@/app/_icons/Logo.js";
-import { DashboardIcon } from "@/app/_icons/DashboardIcon.js";
-import { TruckIcon } from "@/app/_icons/TruckIcon.js";
-import { useRouter } from "next/navigation";
-import { BlackMenuIcon } from "@/app/_icons/BlackMenuIcon.js";
-import { OrderContainer } from "@/app/_components/OrderContainer";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function AdminOrders() {
-  const router = useRouter();
+  const [orders, setOrders] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get("http://localhost:999/order"); // fetch all orders
+        setOrders(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+        setError("Could not load orders.");
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (error) return <p className="text-red-500">{error}</p>;
+
+  if (!orders || orders.length === 0)
+    return (
+      <div className="text-center text-gray-500 mt-10">No orders yet.</div>
+    );
 
   return (
-    <div className="flex flex-col  bg-[#F4F4F5CC] gap-6">
-      <div className=" h-44 flex flex-col w-292.75 bg-white rounded-xl p-6 gap-4">
-        <p className="font-semibold text-[20px]">Orders</p>
+    <div className="p-4 flex flex-col gap-4">
+      <h2 className="text-2xl font-bold mb-4">All Orders</h2>
 
-        <div className="w-74 h-9 rounded-border border-[#E4E4E7] px-4 py-2 flex">
-          <CalendarIcon />
-          <p className="text-[14px] font-normal">13 June 2023 - 14 July 2023</p>
+      {orders.map((order) => (
+        <div
+          key={order._id}
+          className="border p-4 rounded-lg bg-gray-50 flex flex-col gap-2"
+        >
+          <div className="flex justify-between">
+            <span className="font-bold">${order.totalPrice}</span>
+            <span className="text-gray-400">#{order._id.slice(-5)}</span>
+          </div>
+
+          <div className="mt-2">
+            {order.items.map((item) => (
+              <div key={item._id} className="text-black">
+                • {item.productId.name || item.productId} x {item.quantity}
+              </div>
+            ))}
+          </div>
+
+          <div className="text-gray-500 text-sm mt-1">📍 {order.location}</div>
+
+          <div className="text-gray-500 text-sm mt-1">
+            {new Date(order.createdAt).toLocaleString()}
+          </div>
+
+          <div
+            className={`mt-1 font-semibold ${
+              order.status === "Pending" ? "text-yellow-500" : "text-green-500"
+            }`}
+          >
+            {order.status || "Pending"}
+          </div>
         </div>
-        <div className="bg-[#18181B] w-[179px] h-9 rounded py-2 px-4">
-          Change delivery state
-        </div>
-      </div>
+      ))}
     </div>
   );
 }
